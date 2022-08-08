@@ -2766,7 +2766,7 @@ var app = (function () {
     		id: "description",
     		label: "Description",
     		valid: !isEmpty(/*describtion*/ ctx[4]),
-    		validityMessage: "please enter a valid description"
+    		validityMessage: "please enter a valid description!"
     	};
 
     	if (/*describtion*/ ctx[4] !== void 0) {
@@ -2981,7 +2981,7 @@ var app = (function () {
     			t = space();
     			create_component(button1.$$.fragment);
     			attr_dev(div, "slot", "footer");
-    			add_location(div, file$1, 89, 2, 2492);
+    			add_location(div, file$1, 89, 2, 2493);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
