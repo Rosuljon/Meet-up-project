@@ -83,7 +83,7 @@
       id="description"
       label="Description"
       valid={!isEmpty(describtion)}
-      validityMessage="please enter a valid description"
+      validityMessage="please enter a valid description!"
       bind:value={describtion}
     />
   </form>
