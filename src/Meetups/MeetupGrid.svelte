@@ -3,6 +3,8 @@
     import MeetupItem from "./MeetupItem.svelte";
     import Button from "../UI/Button.svelte";
     import {createEventDispatcher} from "svelte";
+    import {scale} from "svelte/transition";
+    import {flip} from "svelte/animate";
     export let meetups;
     const dispatch = createEventDispatcher();
     let favsOnly = false;
@@ -36,18 +38,20 @@
     <Button on:click={()=>dispatch("add")}>New MeetUp</Button>
 </section>
 <section id="meetup">
-    {#each filteredMeetups as meetup}
-      <MeetupItem
-        id = {meetup.id}
-        title={meetup.title}
-        subtitle={meetup.subtitle}
-        describtion={meetup.describtion}
-        imageUrl={meetup.imageUrl}
-        contactEmail = {meetup.contactEmail}
-        address = {meetup.address}
-        isFav = {meetup.isFavorite}
-        on:page
-        on:edit
-      />
+    {#each filteredMeetups as meetup (meetup.id)}
+    <div transition:scale animate:flip={{duration:300}}>
+        <MeetupItem
+          id = {meetup.id}
+          title={meetup.title}
+          subtitle={meetup.subtitle}
+          describtion={meetup.describtion}
+          imageUrl={meetup.imageUrl}
+          contactEmail = {meetup.contactEmail}
+          address = {meetup.address}
+          isFav = {meetup.isFavorite}
+          on:page
+          on:edit
+        />
+    </div>
     {/each}
   </section>
