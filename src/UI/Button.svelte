@@ -18,6 +18,7 @@ a {
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.26);
   cursor: pointer;
   text-decoration: none;
+  
 }
 
 button:focus {

@@ -1,7 +1,8 @@
 <script>
   import Button from "../UI/Button.svelte";
-  import { createEventDispatcher } from "svelte";
+ import meetups from "./meetups-store";
 import Badge from "../UI/Badge.svelte";
+import {createEventDispatcher} from "svelte";
   export let title;
   export let subtitle;
   export let describtion;
@@ -10,6 +11,10 @@ import Badge from "../UI/Badge.svelte";
   export let contactEmail;
   export let id;
   export let isFav;
+  function toogleFavorite(){
+    meetups.toggleFavorite(id);
+
+  }
   const dispatch = createEventDispatcher();
 </script>
 
@@ -20,7 +25,7 @@ import Badge from "../UI/Badge.svelte";
       <Badge>Favorite</Badge>
       {/if}
     </h1>
-    <h2>{subtitle}</h2>
+    <h2>{subtitle} {contactEmail}</h2>
     <p>{address}</p>
   </header>
   <div class="image">
@@ -30,14 +35,14 @@ import Badge from "../UI/Badge.svelte";
     <p>{describtion}</p>
   </div>
   <footer>
-    <Button href="mailto:{contactEmail}">Contact</Button>
+    <Button mode="outline" type="button" on:click={()=>{dispatch("edit", id)}}>Edit</Button>
     <Button
       mode="outline"
       color={isFav ? null : "success"}
       type="button"
-      on:click={() => dispatch("tooglefavorite", id)}
+      on:click={toogleFavorite}
     >{isFav ? "Unfavorite" : "Favorite"}</Button>
-    <Button type="button">Show Details</Button>
+    <Button type="button" on:click={() => dispatch("page", id)}>Show Details</Button>
   </footer>
 </article>
 
@@ -70,12 +75,12 @@ import Badge from "../UI/Badge.svelte";
     font-family: "Roboto Slab", sans-serif;
   }
 
-  h1.is-favorite {
+  /* h1.is-favorite {
     background: #01a129;
     color: white;
     padding: 0 0.5rem;
     border-radius: 5px;
-  }
+  } */
 
   h2 {
     font-size: 1rem;
