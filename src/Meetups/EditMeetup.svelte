@@ -44,9 +44,33 @@
         contactEmail: email,
     }
     if(id){
-      meetups.updateMeetup(id,meeetupData);
+      fetch(`https://meet-up-svelte-default-rtdb.firebaseio.com/meetups/${id}.json`,{
+        method : "PATCH",
+        body : JSON.stringify(meeetupData),
+        headers : {"Content-Type" : "application/json"}
+      }).then(res =>{
+        if(!res.ok){
+          throw new Error("Failed to post data");
+        }
+        meetups.updateMeetup(id,meeetupData);
+      }).catch(err =>{
+        console.log(err);
+      })
     }else{
-      meetups.addMeetup(meeetupData);
+      fetch("https://meet-up-svelte-default-rtdb.firebaseio.com/meetups.json",{
+        method : "POST",
+        body : JSON.stringify({...meeetupData, isFavorite : false},),
+        headers : {"Content-Type" : "application/json"}
+      }).then(res =>{
+        if(!res.ok){
+          throw new Error("Failed to post data");
+        }
+        return res.json()
+      }).then(data => {
+        meetups.addMeetup({...meeetupData, isFavorite : false, id : data.name });
+      }).catch(err =>{
+        console.log(err);
+      })
     }
     dispatch("save");
   }
@@ -54,7 +78,16 @@
     dispatch("cancel");
   }
   function deleteMeetup(){
-    meetups.removeMeetup(id)
+    fetch(`https://meet-up-svelte-default-rtdb.firebaseio.com/meetups/${id}.json`,{
+        method : "DELETE",
+      }).then(res =>{
+        if(!res.ok){
+          throw new Error("Failed to post data");
+        }
+        meetups.removeMeetup(id)
+      }).catch(err =>{
+        console.log(err);
+      })
     dispatch("save");
   }
 </script>

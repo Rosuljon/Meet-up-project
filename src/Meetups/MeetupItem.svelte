@@ -12,7 +12,18 @@ import {createEventDispatcher} from "svelte";
   export let id;
   export let isFav;
   function toogleFavorite(){
-    meetups.toggleFavorite(id);
+    fetch(`https://meet-up-svelte-default-rtdb.firebaseio.com/meetups/${id}.json`,{
+        method : "PATCH",
+        body : JSON.stringify({isFavorite : !isFav}),
+        headers : {"Content-Type" : "application/json"}
+      }).then(res =>{
+        if(!res.ok){
+          throw new Error("Failed to post data");
+        }
+        meetups.toggleFavorite(id);
+      }).catch(err =>{
+        console.log(err);
+      })
 
   }
   const dispatch = createEventDispatcher();

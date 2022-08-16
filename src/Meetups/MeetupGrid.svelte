@@ -32,11 +32,17 @@
         display: flex;
         justify-content:space-between;
     }
+    .no-meetup{
+        margin: 1rem;
+    }
 </style>
 <section id = "meetup-filter">
     <MeetupFilter on:select={setFilter} />
     <Button on:click={()=>dispatch("add")}>New MeetUp</Button>
 </section>
+{#if filteredMeetups.length === 0}
+    <p class="no-meetup">No meetups found, you can start adding some.</p>
+{/if}
 <section id="meetup">
     {#each filteredMeetups as meetup (meetup.id)}
     <div transition:scale animate:flip={{duration:300}}>
